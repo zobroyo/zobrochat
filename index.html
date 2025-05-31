@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <script type="module" src="app.js"></script>
+  <title>ZOBRO CHAT</title>
+  <style>
+    /* base resets */
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #121212;
+      color: #eee;
+      margin: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      user-select: none;
+    }
+
+    .container {
+      background: #1f1f1f;
+      padding: 40px;
+      border-radius: 12px;
+      width: 320px;
+      box-shadow: 0 0 15px #2eaae0;
+      text-align: center;
+    }
+
+    h1 {
+      font-size: 2.8rem;
+      font-weight: 900;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: #2eaae0;
+      margin-bottom: 30px;
+      user-select: text;
+    }
+
+    .toggle-buttons {
+      margin-bottom: 20px;
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .toggle-buttons button {
+      flex: 1;
+      padding: 10px 0;
+      border: none;
+      background: #333;
+      color: #eee;
+      font-weight: 600;
+      cursor: pointer;
+      border-radius: 8px;
+      transition: background 0.3s ease;
+      user-select: none;
+    }
+
+    .toggle-buttons button.active,
+    .toggle-buttons button:hover {
+      background: #2eaae0;
+      color: white;
+      font-weight: 700;
+    }
+
+    form {
+      display: none;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    form.active {
+      display: flex;
+    }
+
+    input[type="email"],
+    input[type="password"] {
+      padding: 12px 14px;
+      font-size: 1rem;
+      border-radius: 8px;
+      border: none;
+      outline: none;
+      background: #292929;
+      color: #eee;
+      width: 100%;
+      box-sizing: border-box;
+      transition: background 0.2s ease;
+      user-select: text;
+    }
+
+    input[type="email"]:focus,
+    input[type="password"]:focus {
+      background: #3e3e3e;
+    }
+
+    button.submit-btn {
+      padding: 12px;
+      font-size: 1.1rem;
+      border: none;
+      border-radius: 8px;
+      background: #2eaae0;
+      color: white;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background 0.3s ease;
+      user-select: none;
+    }
+
+    button.submit-btn:hover {
+      background: #2eaae0;
+    }
+
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>ZOBRO CHAT</h1>
+
+    <div class="toggle-buttons">
+      <button id="loginToggle" class="active">Login</button>
+      <button id="registerToggle">Create Account</button>
+    </div>
+
+    <!-- LOGIN FORM -->
+    <form id="loginForm" class="active" onsubmit="event.preventDefault(); login();">
+      <input type="email" id="login-email" placeholder="Email" required />
+      <input type="password" id="login-password" placeholder="Password" required minlength="6" />
+      <button class="submit-btn" type="submit">Login</button>
+    </form>
+
+    <!-- REGISTER FORM -->
+    <form id="registerForm" onsubmit="event.preventDefault(); register();">
+      <input type="email" id="register-email" placeholder="Email" required />
+      <input type="password" id="register-password" placeholder="Password" required minlength="6" />
+      <button class="submit-btn" type="submit">Create Account</button>
+    </form>
+  </div>
+
+  <script>
+    // toggle forms
+    const loginToggle = document.getElementById('loginToggle');
+    const registerToggle = document.getElementById('registerToggle');
+    const loginForm = document.getElementById('loginForm');
+    const registerForm = document.getElementById('registerForm');
+
+    loginToggle.onclick = () => {
+      loginToggle.classList.add('active');
+      registerToggle.classList.remove('active');
+      loginForm.classList.add('active');
+      registerForm.classList.remove('active');
+    };
+
+    registerToggle.onclick = () => {
+      registerToggle.classList.add('active');
+      loginToggle.classList.remove('active');
+      registerForm.classList.add('active');
+      loginForm.classList.remove('active');
+    };
+  </script>
+</body>
+</html>
