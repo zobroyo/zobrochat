@@ -1,158 +1,226 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <script type="module" src="app.js"></script>
-  <title>ZOBRO CHAT</title>
-  <style>
-    /* base resets */
-    body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: #121212;
-      color: #eee;
-      margin: 0;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      user-select: none;
-    }
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>Z Chat</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 rx=%2222%22 fill=%22%237C5CFF%22/><text x=%2250%22 y=%2270%22 font-size=%2260%22 font-family=%22sans-serif%22 font-weight=%22900%22 fill=%22white%22 text-anchor=%22middle%22>Z</text></svg>" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#101116;
+    --surface:#191b22;
+    --surface-2:#20232c;
+    --line:#2a2d38;
+    --text:#eef0f6;
+    --muted:#8b8fa3;
+    --violet:#7c5cff;
+    --violet-soft:rgba(124,92,255,.18);
+    --cyan:#2eaae0;
+    --danger:#ff5c6c;
+  }
+  *{box-sizing:border-box;}
+  html,body{height:100%;}
+  body{
+    margin:0;
+    font-family:'Inter',sans-serif;
+    background:
+      radial-gradient(circle at 15% 20%, rgba(124,92,255,.16), transparent 45%),
+      radial-gradient(circle at 85% 80%, rgba(46,170,224,.12), transparent 40%),
+      var(--bg);
+    color:var(--text);
+    min-height:100%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:24px;
+  }
+  .card{
+    width:100%;
+    max-width:360px;
+    background:var(--surface);
+    border:1px solid var(--line);
+    border-radius:20px;
+    padding:36px 30px 30px;
+  }
+  .brand{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    margin-bottom:28px;
+  }
+  .brand .mark{
+    width:44px;height:44px;border-radius:12px;
+    background:linear-gradient(135deg,var(--violet),var(--cyan));
+    display:flex;align-items:center;justify-content:center;
+    font-family:'Sora',sans-serif;font-weight:800;font-size:22px;
+    color:white;flex-shrink:0;
+  }
+  .brand h1{
+    font-family:'Sora',sans-serif;
+    font-size:1.5rem;
+    font-weight:700;
+    margin:0;
+    letter-spacing:-.02em;
+  }
+  .brand p{margin:2px 0 0;color:var(--muted);font-size:.8rem;}
 
-    .container {
-      background: #1f1f1f;
-      padding: 40px;
-      border-radius: 12px;
-      width: 320px;
-      box-shadow: 0 0 15px #2eaae0;
-      text-align: center;
-    }
+  .tabs{
+    display:flex;
+    background:var(--surface-2);
+    border-radius:12px;
+    padding:4px;
+    margin-bottom:24px;
+    position:relative;
+  }
+  .tabs button{
+    flex:1;
+    border:none;
+    background:transparent;
+    color:var(--muted);
+    font-family:'Inter',sans-serif;
+    font-weight:600;
+    font-size:.88rem;
+    padding:10px 0;
+    border-radius:9px;
+    cursor:pointer;
+    transition:color .2s ease;
+    position:relative;
+    z-index:1;
+  }
+  .tabs button.active{color:#fff;}
+  .tabs .slider{
+    position:absolute;
+    top:4px;bottom:4px;left:4px;
+    width:calc(50% - 4px);
+    background:linear-gradient(135deg,var(--violet),#6947e0);
+    border-radius:9px;
+    transition:transform .25s cubic-bezier(.4,0,.2,1);
+  }
+  .tabs.register .slider{transform:translateX(100%);}
 
-    h1 {
-      font-size: 2.8rem;
-      font-weight: 900;
-      letter-spacing: 3px;
-      text-transform: uppercase;
-      color: #2eaae0;
-      margin-bottom: 30px;
-      user-select: text;
-    }
+  form{display:none;flex-direction:column;gap:12px;}
+  form.active{display:flex;}
 
-    .toggle-buttons {
-      margin-bottom: 20px;
-      display: flex;
-      justify-content: center;
-      gap: 10px;
-    }
+  label{font-size:.78rem;color:var(--muted);font-weight:500;margin-bottom:-6px;}
 
-    .toggle-buttons button {
-      flex: 1;
-      padding: 10px 0;
-      border: none;
-      background: #333;
-      color: #eee;
-      font-weight: 600;
-      cursor: pointer;
-      border-radius: 8px;
-      transition: background 0.3s ease;
-      user-select: none;
-    }
+  input[type="email"],input[type="password"]{
+    padding:13px 14px;
+    font-size:.95rem;
+    border-radius:10px;
+    border:1px solid var(--line);
+    outline:none;
+    background:var(--surface-2);
+    color:var(--text);
+    width:100%;
+    font-family:'Inter',sans-serif;
+    transition:border-color .15s ease, background .15s ease;
+  }
+  input::placeholder{color:#5c6072;}
+  input:focus{border-color:var(--violet);background:#242732;}
 
-    .toggle-buttons button.active,
-    .toggle-buttons button:hover {
-      background: #2eaae0;
-      color: white;
-      font-weight: 700;
-    }
+  .remember{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    color:var(--muted);
+    font-size:.82rem;
+    user-select:none;
+    cursor:pointer;
+  }
+  .remember input{accent-color:var(--violet);width:15px;height:15px;}
 
-    form {
-      display: none;
-      flex-direction: column;
-      gap: 15px;
-    }
+  button.submit{
+    margin-top:6px;
+    padding:13px;
+    font-size:.95rem;
+    border:none;
+    border-radius:10px;
+    background:linear-gradient(135deg,var(--violet),#6947e0);
+    color:white;
+    font-weight:700;
+    font-family:'Sora',sans-serif;
+    cursor:pointer;
+    transition:filter .15s ease, transform .1s ease;
+  }
+  button.submit:hover{filter:brightness(1.08);}
+  button.submit:active{transform:scale(.98);}
+  button.submit:disabled{opacity:.6;cursor:not-allowed;}
 
-    form.active {
-      display: flex;
-    }
+  .error{
+    display:none;
+    background:rgba(255,92,108,.12);
+    border:1px solid rgba(255,92,108,.35);
+    color:var(--danger);
+    font-size:.82rem;
+    padding:10px 12px;
+    border-radius:10px;
+    line-height:1.4;
+  }
+  .error.show{display:block;}
 
-    input[type="email"],
-    input[type="password"] {
-      padding: 12px 14px;
-      font-size: 1rem;
-      border-radius: 8px;
-      border: none;
-      outline: none;
-      background: #292929;
-      color: #eee;
-      width: 100%;
-      box-sizing: border-box;
-      transition: background 0.2s ease;
-      user-select: text;
-    }
-
-    input[type="email"]:focus,
-    input[type="password"]:focus {
-      background: #3e3e3e;
-    }
-
-    button.submit-btn {
-      padding: 12px;
-      font-size: 1.1rem;
-      border: none;
-      border-radius: 8px;
-      background: #2eaae0;
-      color: white;
-      font-weight: 700;
-      cursor: pointer;
-      transition: background 0.3s ease;
-      user-select: none;
-    }
-
-    button.submit-btn:hover {
-      background: #2eaae0;
-    }
-
-  </style>
+  @media (max-width:420px){
+    .card{padding:28px 20px 24px;border-radius:16px;}
+  }
+</style>
 </head>
 <body>
-  <div class="container">
-    <h1>ZOBRO CHAT</h1>
-
-    <div class="toggle-buttons">
-      <button id="loginToggle" class="active">Login</button>
-      <button id="registerToggle">Create Account</button>
+  <div class="card">
+    <div class="brand">
+      <div class="mark">Z</div>
+      <div>
+        <h1>Z Chat</h1>
+        <p>Sign in to start talking</p>
+      </div>
     </div>
 
-    <!-- LOGIN FORM -->
-    <form id="loginForm" class="active" onsubmit="event.preventDefault(); login();">
-      <input type="email" id="login-email" placeholder="Email" required />
-      <input type="password" id="login-password" placeholder="Password" required minlength="6" />
-      <button class="submit-btn" type="submit">Login</button>
+    <div class="tabs" id="tabs">
+      <div class="slider"></div>
+      <button id="loginToggle" class="active" type="button">Log in</button>
+      <button id="registerToggle" type="button">Create account</button>
+    </div>
+
+    <div class="error" id="loginError"></div>
+    <form id="loginForm" class="active">
+      <label for="login-email">Email</label>
+      <input type="email" id="login-email" placeholder="you@example.com" required />
+      <label for="login-password">Password</label>
+      <input type="password" id="login-password" placeholder="••••••••" required minlength="6" />
+      <label class="remember">
+        <input type="checkbox" id="remember-me" checked />
+        Stay signed in on this device
+      </label>
+      <button class="submit" id="loginBtn" type="submit">Log in</button>
     </form>
 
-    <!-- REGISTER FORM -->
-    <form id="registerForm" onsubmit="event.preventDefault(); register();">
-      <input type="email" id="register-email" placeholder="Email" required />
-      <input type="password" id="register-password" placeholder="Password" required minlength="6" />
-      <button class="submit-btn" type="submit">Create Account</button>
+    <div class="error" id="registerError"></div>
+    <form id="registerForm">
+      <label for="register-email">Email</label>
+      <input type="email" id="register-email" placeholder="you@example.com" required />
+      <label for="register-password">Password</label>
+      <input type="password" id="register-password" placeholder="6+ characters" required minlength="6" />
+      <button class="submit" id="registerBtn" type="submit">Create account</button>
     </form>
   </div>
 
+  <script type="module" src="app.js"></script>
   <script>
-    // toggle forms
+    const tabs = document.getElementById('tabs');
     const loginToggle = document.getElementById('loginToggle');
     const registerToggle = document.getElementById('registerToggle');
     const loginForm = document.getElementById('loginForm');
     const registerForm = document.getElementById('registerForm');
 
     loginToggle.onclick = () => {
+      tabs.classList.remove('register');
       loginToggle.classList.add('active');
       registerToggle.classList.remove('active');
       loginForm.classList.add('active');
       registerForm.classList.remove('active');
     };
-
     registerToggle.onclick = () => {
+      tabs.classList.add('register');
       registerToggle.classList.add('active');
       loginToggle.classList.remove('active');
       registerForm.classList.add('active');
