@@ -8,15 +8,7 @@ import {
   browserLocalPersistence,
   browserSessionPersistence
 } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-
-const firebaseConfig = {
-  apiKey: "AIzaSyCvmzzIhl0lsDLKqtMB8GUGz8HZOMZwrFU",
-  authDomain: "zobrochat.firebaseapp.com",
-  projectId: "zobrochat",
-  storageBucket: "zobrochat.firebasestorage.app",
-  messagingSenderId: "308792787278",
-  appId: "1:308792787278:web:e380ae3064d26f6a995e1f"
-};
+import { firebaseConfig } from "./firebase-config.js";
 
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
@@ -57,13 +49,13 @@ function setLoading(btn, loading, label) {
 
 window.register = function () {
   clearError("registerError");
-  const email = document.getElementById("register-email").value.trim();
+  const email = document.getElementById("register-email").value.trim().slice(0, 254);
   const password = document.getElementById("register-password").value;
-  const btn = document.getElementById("registerBtn");
 
   if (!isValidEmail(email)) return showError("registerError", "That email address doesn't look right.");
   if (password.length < 6) return showError("registerError", "Password needs to be at least 6 characters.");
 
+  const btn = document.getElementById("registerBtn");
   setLoading(btn, true, "Create account");
   setPersistence(auth, browserLocalPersistence)
     .then(() => createUserWithEmailAndPassword(auth, email, password))
@@ -78,7 +70,7 @@ window.register = function () {
 
 window.login = function () {
   clearError("loginError");
-  const email = document.getElementById("login-email").value.trim();
+  const email = document.getElementById("login-email").value.trim().slice(0, 254);
   const password = document.getElementById("login-password").value;
   const remember = document.getElementById("remember-me").checked;
   const btn = document.getElementById("loginBtn");
