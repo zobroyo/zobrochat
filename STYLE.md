@@ -1,7 +1,7 @@
 # zobrochat — Z Ink note
 
 This is the retired Z Chat app: `index.html` redirects immediately and
-`chat.html` after 6 seconds, both to `https://z-chat.men`. `app.js`, `chat.js`,
+`chat.html` after 6 seconds, both to `https://zchat.men`. `app.js`, `chat.js`,
 `firebase-config.js` and `sw.js` are the unreferenced remains of the old app and
 are left alone.
 

@@ -1,7 +1,7 @@
 {
   "name": "Z Chat",
   "short_name": "Z Chat",
-  "description": "The retired Z Chat app - it lives at z-chat.men now.",
+  "description": "The retired Z Chat app - it lives at zchat.men now.",
   "start_url": "./chat.html",
   "scope": "./",
   "display": "standalone",
